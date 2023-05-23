@@ -1,0 +1,50 @@
+import java.io.*;
+import java.util.regex.*;
+public class class12 {
+    public static File file = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text12.txt");
+    public static FileWriter fwr;
+
+    static {
+        try {
+            fwr = new FileWriter(file, true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader fread = new BufferedReader(new FileReader(file));
+        Pattern pat1 = Pattern.compile("ПГТУ");
+        Pattern pat2 = Pattern.compile("ФПММ");
+        Pattern pat3 = Pattern.compile("завуча");
+        Matcher mat1, mat2, mat3;
+        fwr.write("\n\nПосле изменения\n\n");
+        while (fread.ready()) {
+            String line = fread.readLine();
+            String[] mas = line.split("\\s+");
+            for (int i = 0; i < mas.length; i++) {
+                mat1 = pat1.matcher(mas[i]);
+                mat2 = pat2.matcher(mas[i]);
+                mat3 = pat3.matcher(mas[i]);
+                if (mat1.find()) {
+                    mas[i] = mat1.replaceAll("ПНИПУ");
+                }
+                if (mat2.find()) {
+                    mas[i] = mat2.replaceAll("ЭТФ");
+                } else {
+                    if (mat3.find()) {
+                        mas[i] = mat3.replaceAll("заведующего кафедры");
+                    }
+                }
+            }
+            printMas(mas);
+        }
+        fwr.flush();
+        fwr.close();
+    }
+    public static void printMas(String[] array) throws IOException {
+        for (int i=0; i<= array.length-1; i++){
+            fwr.write(array[i] + "\s");
+        }
+    }
+}
