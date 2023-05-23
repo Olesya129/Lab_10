@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.ArrayList;
+
+public class class9 {
+    public static void main(String[] args) throws IOException {
+        File file = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text9.txt");
+
+        BufferedReader fread = new BufferedReader(new FileReader(file));
+        FileWriter fwriter = new FileWriter(file, true);
+        int dno = Integer.parseInt(fread.readLine()), verh = Integer.parseInt(fread.readLine()), n = 0;
+        ArrayList<String> cars = new ArrayList<>();
+
+        while (fread.ready()) {
+            cars.add(fread.readLine());
+            n++;
+        }
+        fwriter.write("\n\nВывод\n");
+        int count = 0;
+        for (String car : cars) {
+            String[] carInfo = car.split(";");
+            String city = carInfo[0];
+            int Owners = Integer.parseInt(carInfo[6]);
+            int Crash = Integer.parseInt(carInfo[9]);
+            int DTP = Integer.parseInt(carInfo[8]);
+
+
+            if (Crash >= 2 && DTP == 0 && Owners > 2) {
+                count++;
+                fwriter.write("\n" + city);
+            }
+        }
+
+        fwriter.write("\nКоличество автомобилей по городам регистрации у которых нет фиксации ДТП, " +
+                "но есть не менее 2-х крашенных элементов, с количеством владельцев большем чем 2: " + count + "\n");
+
+
+        count = 0;
+        for (String car : cars) {
+            String[] carInfo = car.split(";");
+            String city = carInfo[0];
+            String brand = carInfo[7];
+
+            int Equip = Integer.parseInt(carInfo[16]);
+            int sale = Integer.parseInt(carInfo[15]);
+            int purchase = Integer.parseInt(carInfo[14]);
+            int DTP = Integer.parseInt(carInfo[8]);
+
+            if (DTP >= 2 && Equip >= dno && Equip <= verh &&
+                    (double) (sale - purchase) / purchase > 0.2) {
+                count++;
+                fwriter.write(city + " " + brand + "\n");
+            }
+        }
+
+        fwriter.write("Количество у которых зарегистрировано не менее двух ДТП, и т.д., а стоимость продажи" +
+                " превышает стоимость покупки более чем на 20%: " + count);
+
+        fwriter.close();
+    }
+}
