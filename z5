@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+public class test5 {
+    public static void main(String[] args) throws IOException {
+        File file1 = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text5_1.txt");
+        File file2 = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text5_2.txt");
+        FileWriter fwr = new FileWriter(file2, true);
+        BufferedReader fread = new BufferedReader(new FileReader(file1));
+        Pattern gl = Pattern.compile("(?iu)[аеёиоуыэюя]");
+        Pattern sgl = Pattern.compile("(?iu)[бвгджзйклмнпрстфхцчшщ]");
+        int kolGl = 0;
+        int kolSgl = 0;
+        int c = 0;
+        String s ="";
+        while (fread.ready()) {
+            s +=fread.readLine();
+        }
+        String[] mas = s.split("[.?!]+");
+        for (int i = 0; i < mas.length; i ++){
+            String[] mas1 = mas[i].split("\\s+");
+            int cnt = 0;
+            for (int j = 0; j < mas1.length; j ++) {
+                Matcher matcher = gl.matcher(mas1[j]);
+                Matcher m = sgl.matcher(mas1[j]);
+                kolGl = 0;
+                while (matcher.find()) {
+                    kolGl++;
+                }
+                kolSgl = 0;
+                while (m.find()){
+                    kolSgl++;
+                }
+                if (kolSgl > kolGl){
+                    c++;
+                }
+                cnt = j;
+            }
+            if (c >= 2){
+                fwr.write(" " + mas[i].trim() + ".");
+            }
+            if (cnt == mas1.length - 1){
+                c = 0;
+            }
+        }
+        fwr.flush();
+        fwr.close();
+    }
+}
