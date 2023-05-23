@@ -1,0 +1,97 @@
+import java.io.*;
+
+public class test1 {
+    public static void main(String[] args) throws IOException {
+        File file = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text1.txt");
+        FileWriter fwr = new FileWriter(file, true);
+        BufferedReader fread = new BufferedReader(new FileReader(file));
+        String s1 = fread.readLine();
+        String znak = fread.readLine();
+        String slovo = fread.readLine();
+        String[] arr = s1.split("");
+        String s = s1.replace("[", "").replace("]", "").replace(",", "");
+        String str = s.replace(" ", "");
+        fwr.write("\n\nВЫВОД\n\n");
+// а) Определить количество прописных букв русского языка.
+        int count = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (Character.isUpperCase(s1.charAt(i)) && s1.charAt(i) >= 'А' && s1.charAt(i) <= 'Я') {
+                count++;
+            }
+        }
+        fwr.write("а) Количество прописных букв русского языка: " + count + "\n");
+// б) Выяснить, входит ли в последовательность знак препинания, введенный с клавиатуры, например «:».
+
+        boolean Znak = false;
+        if (s1.contains(znak)) {
+            Znak = true;
+        }
+        if (Znak) {
+            fwr.write("б) Данный знак препинания содержится в массиве\n");
+        } else {
+            fwr.write("б) Данный знак препинания не содержится в массиве\n");
+        }
+// в) Выяснить, верно ли, что среди символов имеются хотя бы две буквы, входящие в слово, введенное с клавиатуры, например шина.
+
+        int count1 = 0;
+        for (int j = 0; j < slovo.length(); j++) {
+            for (int k = 0; k < str.length(); k++) {
+                if (slovo.charAt(j) == str.charAt(k)) {
+                    count1++;
+                }
+            }
+        }
+        if (count1 >= slovo.length()) {
+            fwr.write("в) Все буквы из слова " + slovo + " содержатся в исходной последовательности\n");
+        } else {
+            fwr.write("в) Не все буквы из слова " + slovo + " содержатся в исходной последовательности\n");
+        }
+// г) Выяснить, имеется ли среди символов пара соседствующих букв «то» или «от».
+        boolean ot = true;
+        for (int g = 0; g < str.length(); g++) {
+            if ((str.contains("от")) || (str.contains("то"))) {
+                ot = true;
+            } else {
+                ot = false;
+            }
+        }
+        if (ot) {
+            fwr.write("г) Последовательность содержит соседствующие буквы о и т\n");
+        } else if (!ot) {
+            fwr.write("г) Последовательность не содержит соседствующие буквы о и н\n");
+        }
+// д) Выяснить, имеется ли среди символов три подряд идущих одинаковых символа.
+        boolean Simvol = true;
+        for (int h = 0; h < s1.length() - 2; h++) {
+            if (s1.charAt(h) == s1.charAt(h + 1) && s1.charAt(h + 1) == s1.charAt(h + 2)) {
+                Simvol = true;
+                break;
+            } else {
+                Simvol = false;
+            }
+        }
+        if (Simvol) {
+            fwr.write("д) Последовательность содержит три подряд идущих одинаковых символа\n");
+        } else if (!Simvol) {
+            fwr.write("д) Последовательность не содержит три подряд идущих одинаковых символа\n");
+        }
+        int n = arr.length;
+        boolean flag = false; // флаг, показывающий, были ли найдены нужные символы
+        for (int i = n/2 + 1; i < n - 1; i++) {
+            for (int j = i+2; j < n-1; j++) {
+                if (Character.isDigit(s1.charAt(i)) && Character.isDigit(s1.charAt(i))  == Character.isDigit(s1.charAt(i+1))
+                        && s1.charAt(j) == s1.charAt(j + 1)) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        if (flag == true) {
+            fwr.write("e) Существуют такие i и j\n");
+        } else if (flag == false){
+            fwr.write("е) Не существуют такие i и j\n");
+        }
+        fwr.flush();
+        fwr.close();
+    }
+}
