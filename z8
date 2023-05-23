@@ -1,0 +1,75 @@
+import java.io.*;
+import java.text.DecimalFormat;
+import java.util.Random;
+
+import static java.lang.Integer.parseInt;
+
+public class class8 {
+    public static void main(String[] args) throws IOException {
+        File file = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text8.txt");
+        BufferedReader freader = new BufferedReader(new FileReader(file));
+        int cnt = parseInt(freader.readLine());
+
+        BufferedWriter fwriter = new BufferedWriter(new FileWriter(file));
+        fwriter.write("Фигура 1\t|x == -6 && y >= 1 && y <= 6\n" +
+                "\t\t|y =4/3 * x + 9 && x>=-9 && x <= 6 && y >= -3 && y <= 1\n" +
+                "\t\t|y = -3 * x && x >= -6 && x<= 3 && y >= -9 && y <= -8\n" +
+                "\t\t|y = 2 * x + 10 && x >= -8 && x <= -6 && y >= -6 && y <= -2\n" +
+                "\t\t|y = -2 * x - 14 && x >= -6 && x <= -4 && y >= -6 && y <= -2\n" +
+                "\t\t|y = x + 4 && x >= -5 && x <= -2 && y >= -1 && y <= 2\n" +
+                "\t\t|y = -5 * x - 26 && x >= -5 && x <= -4 && y >= -6 && y <= -1\n" +
+                "\t\t|y = 2/3 * x + 10/3 && x >= -5  && x <= -2 && y >= 0 && y <= 2\n" +
+                "\t\t|y = -6 * x - 30 && x >= -6 && x <= -5 && y >= 0 && y <= 6\n" +
+                "\t\t|\n\n" +
+                "Фигура 2\t|y = -8 * x - 4 && x >= -1 && x <= 0 && y >= -4 && y <= 4\n" +
+                "\t\t|y = x - 4 && x >= -2 && x <= -1 && y >= -6 && y <= 4\n" +
+                "\t\t|x >= 1 && x <= 5 && y == -4\n" +
+                "\t\t|y = -4/3 * x + 8/3 && x >= 2 && x <= 5 && y >= -4 && y <= 0\n" +
+                "\t\t|y = 6 * x - 12 && x >= 2 && x <= 3 && y >= 0 && y <= 6\n" +
+                "\t\t|y = 10/3 * x - 4 && x >= 0 && x <= 3 && y >= -4 && y <= 6\n\n");
+
+        Random random = new Random();
+
+        for (int i = 0;i <= cnt;i++) {
+
+            double x = random.nextInt(-10,6),
+                    y= random.nextInt(-8,8);
+
+            fwriter.write(Popalo(x,y,i));
+        }
+        fwriter.close();
+    }
+    public static String Popalo(double x, double y,int i) {
+        if (x <= 2 & ((y > -3 * x - 30 & y < (4 / 3) * x + 9 & y > 2 * x + 10 & y <= 0 & x <= -6) |
+                (y >= 0 & x <= -6 & y < (4 / 3) * x + 9) |
+                (y >= 0 & x >= -6 & y > 6 * x + 30 & y < (2 / 3) * x + (10 / 3)) |
+                (y <= 0 & x >= -6 & y > x + 4 & y < -5 * x - 26 & y > -2 * x - 14))) {
+            return ((i + 1) + ") Точка (" + x + ";" + y + ") попала в область 1 фигуры\n");
+        } else if (x >= -2 & ((y >= 0 & x <= 0 & y < 10 * x + 14 & y < -8 * x - 4) |
+                (y >= 0 & x >= 0 & y < (10 / 3) * x - 4 & y > 6 * x - 12) |
+                (y <= 0 & y >= -4 & x <= 0 & y < 10 * x + 14 & y <= -8 * x - 4) |
+                (y <= 0 & y >= -4 & x >= 0 & y < (10 / 3) * x - 4 & y < (-4 / 3) * x + (8 / 3)) |
+                (y <= -4 & x >= 0 & y > (2 / 3) * x - (14 / 3)) |
+                (y <= -4 & x <= 0 & y > (2 / 3) * x - (14 / 3) & y < 10 * x + 14))) {
+            return (((i + 1) + ") Точка (" + x + ";" + y + ") попала в область 2 фигуры\n"));
+        } else if ((x == -6 && y >= 1 && y <= 6) || (y == 4 / 3 * x + 9 && x >= -9 && x <= 6 && y >= -3 && y <= 1) ||
+                (y == -3 * x && x >= -6 && x <= 3 && y >= -9 && y <= -8) ||
+                (y == 2 * x + 10 && x >= -8 && x <= -6 && y >= -6 && y <= -2) ||
+                (y == -2 * x - 14 && x >= -6 && x <= -4 && y >= -6 && y <= -2) ||
+                (y == x + 4 && x >= -5 && x <= -2 && y >= -1 && y <= 2) ||
+                (y == -5 * x - 26 && x >= -5 && x <= -4 && y >= -6 && y <= -1) ||
+                (y == 2 / 3 * x + 10 / 3 && x >= -5 && x <= -2 && y >= 0 && y <= 2) ||
+                (y == -6 * x - 30 && x >= -6 && x <= -5 && y >= 0 && y <= 6)) {
+            return ((i + 1) + ") Точка (" + x + ";" + y + ") попала на границу фигуры 1\n");
+        } else if ((y == -8 * x - 4 && x >= -1 && x <= 0 && y >= -4 && y <= 4) ||
+                (y == x - 4 && x >= -2 && x <= -1 && y >= -6 && y <= 4) ||
+                (x >= 1 && x <= 5 && y == -4) ||
+                (y == -4 / 3 * x + 8 / 3 && x >= 2 && x <= 5 && y >= -4 && y <= 0) ||
+                (y == 6 * x - 12 && x >= 2 && x <= 3 && y >= 0 && y <= 6) ||
+                (y == 10 / 3 * x - 4 && x >= 0 && x <= 3 && y >= -4 && y <= 6)) {
+            return ((i + 1) + ") Точка (" + x + ";" + y + ") попала на границу фигуры 2\n");
+        } else {
+            return ((i + 1) + ") Точка (" + x + ";" + y + ") никуда не попала\n");
+        }
+    }
+}
