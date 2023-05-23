@@ -1,0 +1,114 @@
+import java.io.*;
+import java.text.DecimalFormat;
+
+import static java.lang.Double.parseDouble;
+
+public class class14 {
+    public static void main(String[] args) throws IOException {
+        File file1 = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text14.txt");
+        File file2 = new File("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text14_1.txt");
+        BufferedReader fread = new BufferedReader(new FileReader(file1));
+        FileWriter fwr = new FileWriter(file2);
+        for (int i = 0; i <= 10; i++){
+            fread.readLine();
+        }
+        double maxS1 = -100000.0, minS1 = 100000.0, maxS2 = -100000.0, minS2 = 100000.0, maxS3 = -100000.0, minS3 = 100000.0,
+                maxSINT = -100000.0, minSINT = 100000.0, maxSEQV = -100000.0, minSEQV = 100000.0,
+                s1 = 0.0, s2 = 0.0, s3 = 0.0, SINT = 0.0, SEQV = 0.0,
+                S1 = 0.0, S2 = 0.0, S3 = 0.0, sINT = 0.0, sEQV = 0.0;
+        int summa = 0;
+        while(fread.ready()){
+            String[] nadoUbrat = fread.readLine().split("-0\\.");
+            for (int i = 1; i < nadoUbrat.length; i ++){
+                nadoUbrat[i] = "\s-0." + nadoUbrat[i];
+            }
+            String s = stroka(nadoUbrat).replaceFirst("\\s+", "");
+            String[] line = s.split("\\s+");
+            s1 += parseDouble(line[1]);
+            s2 += parseDouble(line[2]);
+            s3 += parseDouble(line[3]);
+            SINT += parseDouble(line[4]);
+            SEQV += parseDouble(line[5]);
+            if (parseDouble(line[1]) > maxS1){
+                maxS1 = parseDouble(line[1]);
+            }
+            if (parseDouble(line[1]) < minS1) {
+                minS1 = parseDouble(line[1]);
+            }
+            if (parseDouble(line[2]) > maxS2){
+                maxS2 = parseDouble(line[2]);
+            }
+            if (parseDouble(line[2]) < minS2) {
+                minS2 = parseDouble(line[2]);
+            }
+            if (parseDouble(line[3]) > maxS3){
+                maxS3 = parseDouble(line[3]);
+            }
+            if (parseDouble(line[3]) < minS3) {
+                minS3 = parseDouble(line[3]);
+            }
+            if (parseDouble(line[4]) > maxSINT){
+                maxSINT = parseDouble(line[4]);
+            }
+            if (parseDouble(line[4]) < minSINT) {
+                minSINT = parseDouble(line[4]);
+            }
+            if (parseDouble(line[5]) > maxSEQV){
+                maxSEQV = parseDouble(line[5]);
+            }
+            if (parseDouble(line[5]) < minSEQV) {
+                minSEQV = parseDouble(line[5]);
+            }
+            summa++;
+        }
+        S1 = s1/summa;
+        S2 = s2/summa;
+        S3 = s3/summa;
+        sINT = SINT/summa;
+        sEQV = SEQV/summa;
+        fwr.write("ВЫВОД\n\n\s\s\s\sМакс. значение\tМин.значение\tСреднее значение\n\n"
+                + "S1:\t" + maxS1+"\t\t\s\s\s" + minS1 + "\t\t" + S1 + "\n\n"
+                + "S2:\t" + maxS2+"\t\t\s\s" + minS2 + "\t\t" + S2 + "\n\n"
+                + "S3:\t" + maxS3+"\t\t\s\s" + minS3 + "\t\t" + S3 + "\n\n"
+                + "SINT:\t" + maxSINT+"\t\t\s\s" + minSINT + "\t\t" + sINT + "\n\n"
+                + "SEQV:\t" + maxSEQV+"\t\t\s\s" + minSEQV + "\t\t" + sEQV + "\n\n");
+        fread.close();
+        BufferedReader fread2 = new BufferedReader(new FileReader(file1));
+        for (int i = 0; i <= 10; i++){
+            fread2.readLine();
+        }
+        double s1otk = 0.0, s2otk = 0.0, s3otk = 0.0, sintotk = 0.0, seqvotk = 0.0;
+        fwr.write("Процент отклонения\n\n\sS1\t\sS2\t\sS3\tSINT\tSEQV\n\n");
+        while(fread2.ready()){
+            String[] nadoUbrat = fread2.readLine().split("-0\\.");
+            for (int i = 1; i < nadoUbrat.length; i ++){
+                nadoUbrat[i] = "\s-0." + nadoUbrat[i];
+            }
+            String s = stroka(nadoUbrat).replaceFirst("\\s+", "");
+            String[] line1 = s.split("\\s+");
+            s1otk = parseDouble(line1[1]);
+            s2otk = parseDouble(line1[2]);
+            s3otk = parseDouble(line1[3]);
+            sintotk = parseDouble(line1[4]);
+            seqvotk = parseDouble(line1[5]);
+            fwr.write(otklonenie(s1otk, S1) + "\t"
+                    + otklonenie(s2otk, S2) + "\t"
+                    + otklonenie(s3otk, S3) + "\t"
+                    + otklonenie(sintotk, sINT) + "\t"
+                    + otklonenie(seqvotk, sEQV) + "\t\n");
+        }
+        fwr.flush();
+        fwr.close();
+    }
+    public static String otklonenie(double x,double y){
+        DecimalFormat dec = new DecimalFormat("##");
+        return dec.format((x / y * 100) - 100);
+    }
+    public static String stroka(String [] mas){
+        StringBuilder prosto = new StringBuilder();
+        for (int i = 0; i < mas.length; i++){
+            prosto.append(mas[i]);
+        }
+        return String.valueOf(prosto);
+    }
+}
