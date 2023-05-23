@@ -1,0 +1,86 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class class13 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader1 = new BufferedReader(new FileReader("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text13_1.txt"));
+        BufferedReader reader2 = new BufferedReader(new FileReader("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text13_2.txt"));
+        FileWriter writer = new FileWriter("C:\\Users\\tosch\\OneDrive\\Рабочий стол\\text13_3.txt");
+
+        int k = Integer.parseInt(reader1.readLine()); // количество матриц
+        int n = Integer.parseInt(reader1.readLine()); // размер блоков
+
+        for (int matrixNumber = 0; matrixNumber < k; matrixNumber++) {
+            int[][] matrix = readMatrix(reader1, 2 * n);
+            int[][] subMatrix = readMatrix(reader2, n);
+            int[][] newMatrix = replaceSubMatrixIfRequired(matrix, subMatrix, n);
+            writeMatrix(writer, newMatrix);
+        }
+
+        reader1.close();
+        reader2.close();
+        writer.close();
+    }
+
+    private static int[][] readMatrix(BufferedReader reader, int size) throws IOException {
+        int[][] matrix = new int[size][size];
+
+        for (int i = 0; i < size; i++) {
+            String line = reader.readLine();
+            String[] elements = line.split(" ");
+
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = Integer.parseInt(elements[j]);
+            }
+        }
+
+        return matrix;
+    }
+
+    private static int[][] replaceSubMatrixIfRequired(int[][] matrix, int[][] subMatrix, int n) {
+        for (int i = 0; i <= 2 * n - n; i += n) {
+            for (int j = 0; j <= 2 * n - n; j += n) {
+                int sum = 0;
+
+                for (int x = i; x < i + n; x++) {
+                    for (int y = j; y < j + n; y++) {
+                        sum += matrix[x][y];
+                    }
+                }
+
+                if (sum < getSum(subMatrix)) {
+                    for (int x = i; x < i + n; x++) {
+                        for (int y = j; y < j + n; y++) {
+                            matrix[x][y] = subMatrix[x - i][y - j];
+                        }
+                    }
+                }
+            }
+        }
+
+        return matrix;
+    }
+
+    private static int getSum(int[][] matrix) {
+        int sum = 0;
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                sum += matrix[i][j];
+            }
+        }
+
+        return sum;
+    }
+
+    private static void writeMatrix(FileWriter writer, int[][] matrix) throws IOException {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                writer.write(matrix[i][j] + " ");
+            }
+            writer.write("\n");
+        }
+    }
+}
